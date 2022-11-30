@@ -6,11 +6,11 @@ import { Request, Response } from "express";
 export const registerHandler = async (req: Request, res: Response) => {
     try {
       const newUser = req.body as User;
-      const hashPassword = await argon2.hash(newUser.password);
-      newUser.password = hashPassword;
-      await prisma.user.create({
-        data: newUser,
-      });
+      // const hashPassword = await argon2.hash(newUser.password);
+      // newUser.password = hashPassword;
+      // await prisma.user.create({
+      //   data: newUser,
+      // });
       return res.status(200).json({
         message: 'user added !',
       });
@@ -57,3 +57,23 @@ export const loginHandler = async (req: Request, res: Response) => {
       });
     }
   };
+
+  export const getAllUserHandller = async (req: Request, res: Response) => {
+    try {
+      const users = await prisma.user.findMany();
+      return res.status(200).json(users);
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({
+        mrssage: 'server Error !',
+      });
+    }
+  
+  };
+  export  const user = async ( req: Request, res: Response) => {
+    return res.status(200).json({message: "Welcome USER .."})
+}
+
+export  const admin = async ( req: Request, res: Response) => {
+    return res.status(200).json({message: "Welcome ADMIN .."})
+}
